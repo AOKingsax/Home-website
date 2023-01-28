@@ -9,14 +9,14 @@ jobs:
       - checkout
 
       - run:
-        name: Create Cloudformation Stack
-        command: |
-          aws cloudformation deploy --template-file template.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy --template-file template.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
 
       - run:
-        name: Copy the instance ip address
-        command: |
-          aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > inventory.txt
+          name: Copy the instance ip address
+          command: |
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > inventory.txt
 
   configure_infrastructure:
     docker:
@@ -26,17 +26,17 @@ jobs:
       - checkout
 
       - add_ssh_keys:
-        fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
+          fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
 
       - run:
-        name: Install Ansible
-        command: |
-          apk add --update ansible
+          name: Install Ansible
+          command: |
+            apk add --update ansible
 
       - run:
-        name: Run Playbook and Configure server
-        command: |
-          ansible-playbook -i ./inventory.txt ./deploy.yml
+          name: Run Playbook and Configure server
+          command: |
+            ansible-playbook -i ./inventory.txt ./deploy.yml
 
 workflows:
   myWorkflow:
