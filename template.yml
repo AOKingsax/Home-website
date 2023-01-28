@@ -6,7 +6,7 @@ Resources:
     Properties:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
-      KeyName: alxkey.pem
+      KeyName: alxkey
       ImageId: "ami-00874d747dde814fa"
       InstanceType: t3.micro
   InstanceSecurityGroup:
