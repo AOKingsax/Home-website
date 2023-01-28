@@ -14,22 +14,22 @@ jobs:
         name: Copy the instance ip address
         command: |
           aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
-        
-  configure_infrastructure: 
+
+  configure_infrastructure:
     docker:
-      - image: python:3.7-alpine3.11 
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
-        fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"] 
-    - run:
-      name: Install Ansible
-      command: |
-        apk add --update ansible
-    - run:
-      name: Run Playbook and Configure server
-      command: |
-        ansible-playbook -i inventory.txt deploy.yml
+        fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
+      - run:
+        name: Install Ansible
+        command: |
+          apk add --update ansible
+      - run:
+        name: Run Playbook and Configure server
+        command: |
+          ansible-playbook -i inventory.txt deploy.yml
 workflows:
   myWorkflow:
     jobs:
