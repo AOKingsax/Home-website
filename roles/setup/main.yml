@@ -1,0 +1,34 @@
+---
+- name: Copying html file
+  become: yes
+  copy:
+    src: ./index.html
+    dest: /var/www/html/
+
+- name: Copying css file
+  become: yes
+  copy:
+    src: ./style.css
+    dest: /var/www/html/
+
+- name: Copying holay image
+  become: yes
+  copy:
+    src: ./holay.webp
+    dest: /var/www/html/
+
+- name: Copying nlogo image
+  become: yes
+  copy:
+    src: ./nlogo.png
+    dest: /var/www/html/
+
+- name: Reload apache
+  service:
+    name: apache2
+    state: reloaded
+
+- name: Restart apache
+  service:
+    name: apache2
+    state: restarted
