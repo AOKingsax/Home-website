@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Copy the instance ip address
           command: |
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
 
   configure_infrastructure:
     docker:
@@ -32,6 +32,11 @@ jobs:
           name: Install Ansible
           command: |
             apk add --update ansible
+
+      - run:
+          name: Copy the instance ip address
+          command: |
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
 
       - run:
           name: Run Playbook and Configure server
