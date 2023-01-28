@@ -39,7 +39,7 @@ jobs:
             ansible-playbook -i ./inventory.txt ./deploy.yml
 
 workflows:
-  myWorkflow:
+  my_workflow:
     jobs:
       - create_infrastructure
-      - configure_infrastructure:
+      - configure_infrastructure
