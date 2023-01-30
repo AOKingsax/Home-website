@@ -82,4 +82,5 @@ workflows:
           requires:
             - create_infrastructure
       - deploy_website:
-          requires: configure_infrastructure
+          requires:
+            - configure_infrastructure
