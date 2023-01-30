@@ -61,8 +61,8 @@ jobs:
       - run:
           name: package the website into an artifact
           command: |
-          tar -C website -czvf build-artifact.tar.gz .
-          mkdir -p ~/project/.circleci/Ansible/roles/setup/files/
+          tar -czvf build-artifact.tar.gz website 
+          mkdir -p .circleci/Ansible/roles/setup/files/
           mv build-artifact.tar.gz .circleci/Ansible/roles/setup/files/build-artifact.tar.gz
       - run: 
           name: Deploy the website
