@@ -11,6 +11,8 @@ Resources:
       KeyName: alxkey
       ImageId: "ami-00874d747dde814fa"
       InstanceType: t3.micro
+      NetworkInterfaces:
+        SubnetId: subnet-0f3250cb2dd22fe62
 
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
