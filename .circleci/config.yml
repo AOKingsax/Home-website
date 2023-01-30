@@ -61,18 +61,18 @@ jobs:
       - run:
           name: package the website into an artifact
           command: |
-          tar -czvf build-artifact.tar.gz website 
-          mkdir -p .circleci/Ansible/roles/setup/files/
-          mv build-artifact.tar.gz .circleci/Ansible/roles/setup/files/build-artifact.tar.gz
-      - run: 
+            tar -C website -czvf build-artifact.tar.gz .
+            mkdir -p ~/project/.circleci/Ansible/roles/deploy/files/
+            mv build-artifact.tar.gz .circleci/Ansible/roles/setup/files/build-artifact.tar.gz
+      - run:
           name: Deploy the website
           command: |
-          cd .circleci/ansible
-          echo "Contents  of the inventory.txt file is -------"
-          cat inventory.txt
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
 
-          echo "Deploying website"
-          ansible-playbook -i inventory.txt deploy-backend.yml
+            echo "Deploying website"
+            ansible-playbook -i inventory.txt deploy-backend.yml
 
 workflows:
   my_workflow:
