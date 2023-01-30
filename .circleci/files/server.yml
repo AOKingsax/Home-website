@@ -6,7 +6,6 @@ Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
     Properties:
-      VpcId: "vpc-0929725fc96c5b530"
       SecurityGroups:
         - !Ref InstanceSecurityGroup
       KeyName: alxkey
