@@ -15,7 +15,7 @@ jobs:
       - run:
           name: add instance ip to inventory
           command: |
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text >> .circleci/Ansible/inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text > .circleci/Ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:

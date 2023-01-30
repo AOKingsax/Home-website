@@ -6,15 +6,17 @@ Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
     Properties:
+      VpcId: "vpc-0929725fc96c5b530"
       SecurityGroups:
         - !Ref InstanceSecurityGroup
       KeyName: alxkey
       ImageId: "ami-00874d747dde814fa"
       InstanceType: t3.micro
+
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
-
     Properties:
+      VpcId: "vpc-0929725fc96c5b530"
       GroupDescription: Enable SSH access via port 22
       SecurityGroupIngress:
         - IpProtocol: tcp
