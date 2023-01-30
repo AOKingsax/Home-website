@@ -13,6 +13,7 @@ Resources:
       InstanceType: t3.micro
       NetworkInterfaces:
         - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
           SubnetId: "subnet-0f3250cb2dd22fe62"
 
   InstanceSecurityGroup:
