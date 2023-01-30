@@ -1,5 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
+
 Description: infrastruture for my website
+
 Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
@@ -11,10 +13,21 @@ Resources:
       InstanceType: t3.micro
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
+
     Properties:
       GroupDescription: Enable SSH access via port 22
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: "22"
           ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
           CidrIp: 0.0.0.0/0

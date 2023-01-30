@@ -1,40 +1,85 @@
 version: 2.1
 
 jobs:
-  #   create_infrastructure:
-  #     docker:
-  #       - image: amazon/aws-cli
-
-  #     steps:
-  #       - checkout
-
-  #       - run:
-  #           name: Create Cloudformation Stack
-  #           command: |
-  #             aws cloudformation deploy --template-file template.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
-
-  configure_infrastructure:
+  create_infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
 
     steps:
       - checkout
+      - run: yum install -y tar gzip
+      - run:
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy --template-file .circleci/files/server.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
+      - run:
+          name: add instance ip to inventory
+          command: |
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text >> .circleci/Ansible/inventory.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
 
+  configure_infrastructure:
+    docker:
+      - image: python:3.8-alpine3.15
+
+    steps:
+      - checkout
       - add_ssh_keys:
           fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
-
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install Ansible
           command: |
             apk add --update ansible
-
+            apk add --update --no-cache python3 py3-pip
+            /usr/local/bin/python -m pip install --upgrade pip
+            pip install awscli
       - run:
           name: Run Playbook and Configure server
           command: |
+            cd ~/project/.circleci/ansible
+            cat inventory.txt
             ansible-playbook -i inventory.txt deploy.yml
+
+  deploy_website:
+    docker:
+      - image: python:3.8-alpine3.15
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: install dependencies
+          command: |
+            apk add --update --no-cache tar gzip aws-cli ansible
+      - run:
+          name: package the website into an artifact
+          command: |
+          tar -C website -czvf build-artifact.tar.gz .
+          mkdir -p ~/project/.circleci/Ansible/roles/setup/files/
+          mv build-artifact.tar.gz .circleci/Ansible/roles/setup/files/build-artifact.tar.gz
+      - run: 
+          name: Deploy the website
+          command: |
+          cd .circleci/ansible
+          echo "Contents  of the inventory.txt file is -------"
+          cat inventory.txt
+
+          echo "Deploying website"
+          ansible-playbook -i inventory.txt deploy-backend.yml
 
 workflows:
   my_workflow:
     jobs:
-      # - create_infrastructure
-      - configure_infrastructure
+      - create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_infrastructure
+      - deploy_website:
+          requires: configure_infrastructure
