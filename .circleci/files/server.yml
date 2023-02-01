@@ -3,35 +3,37 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: infrastruture for my website
 
 Resources:
-  myWebAccessSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: To allow http request into the instance
-      VpcId:
-        Ref: "vpc-0a61cd3ae51026664"
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: "22"
-          ToPort: "22"
-          CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: -1
-          ToPort: -1
-          CidrIp: 0.0.0.0/0
-  myWebServerInstance:
+  EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t3.micro
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      KeyName: alxkey
       ImageId: "ami-00874d747dde814fa"
+      InstanceType: t2.micro
       NetworkInterfaces:
         - AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
           GroupSet:
-            - Ref: "myWebAccessSecurityGroup"
+            - Ref: "InstanceSecurityGroup"
           SubnetId: "subnet-019fe6c1ddfd0ac14"
 
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      VpcId: "vpc-0a61cd3ae51026664"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
