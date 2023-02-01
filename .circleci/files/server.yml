@@ -11,16 +11,12 @@ Resources:
       KeyName: alxkey
       ImageId: "ami-00874d747dde814fa"
       InstanceType: t3.micro
-      NetworkInterfaces:
-        - AssociatePublicIpAddress: "true"
-          DeviceIndex: "0"
-          SubnetId: "subnet-0f3250cb2dd22fe62"
 
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
-      VpcId: "vpc-0929725fc96c5b530"
-      SubnetId: "subnet-0f3250cb2dd22fe62"
+      VpcId: "vpc-0a61cd3ae51026664"
+      SubnetId: "subnet-019fe6c1ddfd0ac14"
       GroupDescription: Enable SSH access via port 22
       SecurityGroupIngress:
         - IpProtocol: tcp
