@@ -9,14 +9,14 @@ Resources:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
       KeyName: alxkey
-      ImageId: "ami-00874d747dde814fa"
+      ImageId: ami-00874d747dde814fa
       InstanceType: t2.micro
       NetworkInterfaces:
-        # - AssociatePublicIpAddress: "true"
-        #   DeviceIndex: "0"
-        GroupSet:
-          - Ref: "InstanceSecurityGroup"
-        SubnetId: "subnet-019fe6c1ddfd0ac14"
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet:
+            - Ref: "InstanceSecurityGroup"
+          SubnetId: subnet-019fe6c1ddfd0ac14
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
