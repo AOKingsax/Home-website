@@ -16,7 +16,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet:
             - Ref: "InstanceSecurityGroup"
-          SubnetId: subnet-019fe6c1ddfd0ac14
+          # SubnetId: subnet-019fe6c1ddfd0ac14
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
