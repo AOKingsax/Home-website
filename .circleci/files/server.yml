@@ -3,31 +3,64 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: infrastruture for my website
 
 Resources:
-  EC2Instance:
-    Type: "AWS::EC2::Instance"
+  myWebAccessSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
     Properties:
-      SecurityGroups:
-        - !Ref InstanceSecurityGroup
-      KeyName: alxkey
-      ImageId: "ami-00874d747dde814fa"
-      InstanceType: t2.micro
-
-  InstanceSecurityGroup:
-    Type: "AWS::EC2::SecurityGroup"
-    Properties:
-      GroupDescription: Enable SSH access via port 22
+      GroupDescription: To allow http request into the instance
+      VpcId:
+        Ref: "vpc-0a61cd3ae51026664"
       SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: "22"
-          ToPort: "22"
-          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-
-      SecurityGroupEgress:
         - IpProtocol: tcp
-          FromPort: 0
-          ToPort: 65535
+          FromPort: "22"
+          ToPort: "22"
           CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+  myWebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.micro
+      ImageId: "ami-00874d747dde814fa"
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet:
+            - Ref: "myWebAccessSecurityGroup"
+          SubnetId: "subnet-019fe6c1ddfd0ac14"
+
+# Resources:
+#   EC2Instance:
+#     Type: "AWS::EC2::Instance"
+#     Properties:
+#       SecurityGroups:
+#         - !Ref InstanceSecurityGroup
+#       KeyName: alxkey
+#       ImageId: "ami-00874d747dde814fa"
+#       InstanceType: t2.micro
+
+#   InstanceSecurityGroup:
+#     Type: "AWS::EC2::SecurityGroup"
+#     Properties:
+#       GroupDescription: Enable SSH access via port 22
+#       SecurityGroupIngress:
+#         - IpProtocol: tcp
+#           FromPort: "22"
+#           ToPort: "22"
+#           CidrIp: 0.0.0.0/0
+#         - IpProtocol: tcp
+#           FromPort: 80
+#           ToPort: 80
+#           CidrIp: 0.0.0.0/0
+
+#       SecurityGroupEgress:
+#         - IpProtocol: tcp
+#           FromPort: 0
+#           ToPort: 65535
+#           CidrIp: 0.0.0.0/0
