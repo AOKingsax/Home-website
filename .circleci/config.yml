@@ -83,10 +83,10 @@ jobs:
           fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
       # - attach_workspace:
       #     at: ~/
-      - run:
-          name: install dependencies
-          command: |
-            apk add --update --no-cache tar gzip aws-cli ansible
+      # - run:
+      #     name: install dependencies
+      #     command: |
+      #       apk add --update --no-cache tar gzip aws-cli ansible
       - run:
           name: package the website into an artifact
           command: |
