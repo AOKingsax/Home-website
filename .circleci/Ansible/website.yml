@@ -26,6 +26,7 @@
       unarchive:
         src: "files/artifact.tar.gz"
         dest: /var/www/html/
+        remote_src: yes
 
     - name: Reload apache
       service:
