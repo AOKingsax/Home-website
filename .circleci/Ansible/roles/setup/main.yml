@@ -1,26 +1,26 @@
 ---
-- name: "Update"
-  become: yes
-  apt:
-    update_cache: yes
+  - name: "Update"
+    become: yes
+    apt:
+      update_cache: yes
 
-- name: "delete outdated dependencies"
-  become: yes
-  apt:
-    autoremove: yes
+  - name: "delete outdated dependencies"
+    become: yes
+    apt:
+      autoremove: yes
 
-- name: "Unarchive build artifact"
-  become: yes
-  unarchive:
-    src: "files/artifact.tar.gz"
-    dest: /var/www/html/
+  - name: "Unarchive build artifact"
+    become: yes
+    unarchive:
+      src: files/artifact.tar.gz
+      dest: /var/www/html/
 
-- name: Reload apache
-  service:
-    name: apache2
-    state: reloaded
+  - name: Reload apache
+    service:
+      name: apache2
+      state: reloaded
 
-- name: Restart apache
-  service:
-    name: apache2
-    state: restarted
+  - name: Restart apache
+    service:
+      name: apache2
+      state: restarted

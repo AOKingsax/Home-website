@@ -5,35 +5,9 @@
   become: true
   become_method: sudo
   become_user: root
+
   vars:
-    # - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
-    # - ansible_stdout_callback: yaml
 
-  tasks:
-    - name: "Update"
-      become: yes
-      apt:
-        update_cache: yes
-
-    - name: "delete outdated dependencies"
-      become: yes
-      apt:
-        autoremove: yes
-
-    - name: "Unarchive build artifact"
-      become: yes
-      unarchive:
-        src: .circleci/Ansible/files/artifact.tar.gz
-        dest: /var/www/html/
-        remote_src: yes
-
-    - name: Reload apache
-      service:
-        name: apache2
-        state: reloaded
-
-    - name: Restart apache
-      service:
-        name: apache2
-        state: restarted
+  roles:
+    - setup

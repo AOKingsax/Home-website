@@ -6,36 +6,7 @@
   become_method: sudo
   become_user: root
   vars:
-    # - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
-    # - ansible_stdout_callback: yaml
 
-  # pre_tasks:
-  #   - name: "wait 600 seconds for target connection to become reachable/usable."
-  #     wait_for_connection:
-  #       timeout: 600
-
-  # roles:
-  #   - apache
-
-  tasks:
-    - name: Update apt packages
-      become: yes
-      apt:
-        update_cache: yes
-
-    - name: Upgrade packages
-      become: yes
-      apt:
-        upgrade: yes
-
-    - name: Install apache web server
-      apt:
-        name: apache2
-        state: latest
-
-    - name: Delete default HTML page
-      become: yes
-      file:
-        path: /var/www/html/index.html
-        state: absent
+  roles:
+    - apache
