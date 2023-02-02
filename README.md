@@ -1,2 +1,3 @@
 # Home-website
-This was used to learn how to git pull from github
+
+Running a CI/CD delivey on a simple landing page
