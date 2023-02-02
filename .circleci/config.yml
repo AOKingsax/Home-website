@@ -56,7 +56,7 @@ jobs:
           name: add instance ip to inventory
           command: |
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text > .circleci/Ansible/inventory.txt
-            cd ~/project/.circleci/ansible
+            cd .circleci/ansible
             cat inventory.txt
       # - attach_workspace:
       #     at: ~/
