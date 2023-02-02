@@ -92,6 +92,10 @@ jobs:
             mkdir -p ~/project/.circleci/Ansible/roles/setup/files/
             mv artifact.tar.gz .circleci/Ansible/roles/setup/files/artifact.tar.gz
       - run:
+          name: add instance ip to inventory
+          command: |
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > .circleci/Ansible/inventory.txt
+      - run:
           name: Deploy the website
           command: |
             cd .circleci/Ansible

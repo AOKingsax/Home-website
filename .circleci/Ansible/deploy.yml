@@ -15,5 +15,26 @@
   #     wait_for_connection:
   #       timeout: 600
 
-  roles:
-    - apache
+  # roles:
+  #   - apache
+---
+- name: Update apt packages
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Upgrade packages
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: Install apache web server
+  apt:
+    name: apache2
+    state: latest
+
+- name: Delete default HTML page
+  become: yes
+  file:
+    path: /var/www/html/index.html
+    state: absent
