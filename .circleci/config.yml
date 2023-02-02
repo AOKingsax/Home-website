@@ -125,7 +125,7 @@ jobs:
           command: return 1
           # command: |
           #   URL="https://blog.udacity.com/"
-          #   if curl -s --head ${URL} 
+          #   if curl -s --head ${URL}
           #   then
           #     echo "SUCCESS"
           #   else
@@ -143,6 +143,6 @@ workflows:
       - deploy_website:
           requires:
             - configure_infrastructure
-      - smoke_tests:
+      - smoke_test:
           requires:
             - deploy_website
