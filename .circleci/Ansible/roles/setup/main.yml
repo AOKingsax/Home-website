@@ -12,7 +12,7 @@
 - name: "Unarchive build artifact"
   become: yes
   unarchive:
-    src: "files/build-artifact.tar.gz"
+    src: "files/artifact.tar.gz"
     dest: /var/www/html/
 
 - name: Reload apache
