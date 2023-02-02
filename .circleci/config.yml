@@ -35,7 +35,8 @@ jobs:
 
   configure_infrastructure:
     docker:
-      - image: python:3.8-alpine3.15
+      # - image: python:3.8-alpine3.15
+      - image: cimg/python:3.10
 
     steps:
       - checkout
@@ -55,7 +56,7 @@ jobs:
             apk add --update ansible
             apk add --update --no-cache python3 py3-pip
             /usr/local/bin/python -m pip install --upgrade pip
-            # pip install awscli
+            pip install awscli
       - run:
           name: Run Playbook and Configure server
           command: |
