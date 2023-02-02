@@ -90,7 +90,6 @@ jobs:
           command: |
             tar -C website -czvf artifact.tar.gz .
             mkdir -p ~/project/.circleci/Ansible/roles/deploy/files/
-            cat artifact.tar.gz
             mv ./artifact.tar.gz .circleci/Ansible/roles/setup/files/
       - run:
           name: Deploy the website
