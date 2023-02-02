@@ -74,7 +74,7 @@ jobs:
 
   deploy_website:
     docker:
-      - image: python:3.8-alpine3.15
+      - image: cimg/python:3.10
     steps:
       - checkout
       - add_ssh_keys:
@@ -100,7 +100,6 @@ jobs:
           name: Deploy the website
           command: |
             cd .circleci/Ansible
-            echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
 
             echo "Deploying website"
