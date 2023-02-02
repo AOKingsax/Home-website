@@ -5,7 +5,7 @@ Resources:
     Type: "AWS::EC2::Instance"
     Properties:
       SecurityGroups:
-        - !Ref InstanceSecurityGroup
+        Fn::GetAtt": ["InstanceSecurityGroup", "GroupId"]
       KeyName: alxkey
       ImageId: "ami-00874d747dde814fa"
       InstanceType: t3.micro
