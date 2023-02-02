@@ -55,7 +55,7 @@ jobs:
       - run:
           name: add instance ip to inventory
           command: |
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text > .circleci/Ansible/inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > .circleci/Ansible/inventory.txt
       # - attach_workspace:
       #     at: ~/
       # - run:
@@ -88,13 +88,13 @@ jobs:
       - run:
           name: package the website into an artifact
           command: |
-            tar -C website -czvf build-artifact.tar.gz .
+            tar -C website -czvf artifact.tar.gz .
             mkdir -p ~/project/.circleci/Ansible/roles/deploy/files/
-            mv build-artifact.tar.gz .circleci/Ansible/roles/setup/files/build-artifact.tar.gz
+            mv artifact.tar.gz .circleci/Ansible/roles/setup/files/
       - run:
           name: Deploy the website
           command: |
-            cd .circleci/ansible
+            cd .circleci/Ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
 
