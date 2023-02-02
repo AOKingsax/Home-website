@@ -1,5 +1,16 @@
 version: 2.1
 
+commands:
+  install_awscli:
+    description: Install AWS CLI v2
+    steps:
+      - run:
+          name: Install AWS CLI v2
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
 jobs:
   create_infrastructure:
     docker:
@@ -12,14 +23,15 @@ jobs:
       # name: Create Cloudformation Stack
       # command: |
       # aws cloudformation deploy --template-file .circleci/files/server.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
-      - run:
-          name: add instance ip to inventory
-          command: |
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text > .circleci/Ansible/inventory.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
+      # - run:
+      #     name: add instance ip to inventory
+      #     command: |
+      #       aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text > .circleci/Ansible/inventory.txt
+      #       cat .circleci/Ansible/inventory.txt
+      # - persist_to_workspace:
+      #     root: ~/
+      #     paths:
+      #       - project/.circleci/ansible/inventory.txt
 
   configure_infrastructure:
     docker:
@@ -27,17 +39,23 @@ jobs:
 
     steps:
       - checkout
+      - install_awscli
       - add_ssh_keys:
           fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
-      - attach_workspace:
-          at: ~/
+      - run:
+          name: add instance ip to inventory
+          command: |
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udacity" --output text > .circleci/Ansible/inventory.txt
+            cat .circleci/Ansible/inventory.txt
+      # - attach_workspace:
+      #     at: ~/
       - run:
           name: Install Ansible
           command: |
             apk add --update ansible
             apk add --update --no-cache python3 py3-pip
             /usr/local/bin/python -m pip install --upgrade pip
-            pip install awscli
+            # pip install awscli
       - run:
           name: Run Playbook and Configure server
           command: |
@@ -52,8 +70,8 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["f8:15:9b:ab:95:c3:50:61:a4:a1:3e:d7:7a:06:25:22"]
-      - attach_workspace:
-          at: ~/
+      # - attach_workspace:
+      #     at: ~/
       - run:
           name: install dependencies
           command: |
