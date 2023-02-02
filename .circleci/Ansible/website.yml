@@ -24,7 +24,7 @@
     - name: "Unarchive build artifact"
       become: yes
       unarchive:
-        src: ".circleci/Ansible/files/artifact.tar.gz"
+        src: Ansible/files/artifact.tar.gz
         dest: /var/www/html/
         remote_src: yes
 
