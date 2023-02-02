@@ -95,6 +95,7 @@ jobs:
           name: add instance ip to inventory
           command: |
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text > .circleci/Ansible/inventory.txt
+            # hello
       - run:
           name: Deploy the website
           command: |
