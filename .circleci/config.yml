@@ -99,7 +99,7 @@ jobs:
             cat inventory.txt
 
             echo "Deploying website"
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            ansible-playbook -i inventory.txt website.yml
 
 workflows:
   my_workflow:
