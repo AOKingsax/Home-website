@@ -6,7 +6,7 @@ Resources:
     Properties:
       SecurityGroups: "sg-02a7f5f4e1cda0c1c"
       KeyName: alxkey
-      ImageId: ami-00874d747dde814fa
+      ImageId: "ami-00874d747dde814fa"
       InstanceType: t3.micro
   # InstanceSecurityGroup:
   #   Type: "AWS::EC2::SecurityGroup"
