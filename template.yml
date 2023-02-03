@@ -4,26 +4,26 @@ Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
     Properties:
-      SecurityGroups: Fn::GetAtt: [ "InstanceSecurityGroup", "GroupId" ]
+      SecurityGroups: sg-02a7f5f4e1cda0c1c
       KeyName: alxkey
-      ImageId: "ami-00874d747dde814fa"
+      ImageId: ami-00874d747dde814fa
       InstanceType: t3.micro
-  InstanceSecurityGroup:
-    Type: "AWS::EC2::SecurityGroup"
-    Properties:
-      GroupDescription: Enable SSH access via port 22
-      VpcId: vpc-0929725fc96c5b530
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: "22"
-          ToPort: "22"
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: "80"
-          ToPort: "80"
-          CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: -1
-          ToPort: -1
-          CidrIp: 0.0.0.0/0
+  # InstanceSecurityGroup:
+  #   Type: "AWS::EC2::SecurityGroup"
+  #   Properties:
+  #     GroupDescription: Enable SSH access via port 22
+  #     VpcId: vpc-0929725fc96c5b530
+  #     SecurityGroupIngress:
+  #       - IpProtocol: tcp
+  #         FromPort: "22"
+  #         ToPort: "22"
+  #         CidrIp: 0.0.0.0/0
+  #       - IpProtocol: tcp
+  #         FromPort: "80"
+  #         ToPort: "80"
+  #         CidrIp: 0.0.0.0/0
+  #     SecurityGroupEgress:
+  #       - IpProtocol: -1
+  #         FromPort: -1
+  #         ToPort: -1
+  #         CidrIp: 0.0.0.0/0
